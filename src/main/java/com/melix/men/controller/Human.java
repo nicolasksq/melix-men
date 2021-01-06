@@ -16,7 +16,6 @@ import java.util.Arrays;
 @RestController
 public class Human {
 
-
     //max value to find in the DNA
     private static final int MAX_NITRO_BASE = 4;
 
@@ -35,11 +34,16 @@ public class Human {
         }
     }
 
+    /**
+     * @param dna
+     * @throws Exception
+     */
     private void validateMutant(char[][] dna) throws Exception {
 
         int horizontalCoincidence = 1;
         int[] verticalCoincidence = new int[dna[0].length];
-        int[][] obliqueCoincidence = new int[dna.length][dna[0].length];
+        int[][] obliqueCoincidenceLeft = new int[dna.length][dna[0].length];
+        int[][] obliqueCoincidenceRight = new int[dna.length][dna[0].length];
 
         Arrays.fill(verticalCoincidence,1);
 
@@ -48,15 +52,15 @@ public class Human {
 
                 if (letterIndex > 0) {
                     if (dna[nitroBaseIndex][letterIndex] == dna[nitroBaseIndex][letterIndex - 1]) horizontalCoincidence++;
-                    else horizontalCoincidence = 0;
+                    else horizontalCoincidence = 1;
+
                     //validate horizontally
                     if (horizontalCoincidence == MAX_NITRO_BASE) return;
                 }
 
                 if (nitroBaseIndex > 0) {
-                    if (dna[nitroBaseIndex][letterIndex] == dna[nitroBaseIndex - 1][letterIndex]) {
-                        verticalCoincidence[letterIndex]++;
-                    } else verticalCoincidence[letterIndex] = 1;
+                    if (dna[nitroBaseIndex][letterIndex] == dna[nitroBaseIndex - 1][letterIndex]) verticalCoincidence[letterIndex]++;
+                    else verticalCoincidence[letterIndex] = 1;
 
                     //validate vertically
                     if (verticalCoincidence[letterIndex] == MAX_NITRO_BASE) return;
@@ -67,18 +71,19 @@ public class Human {
                 ) {
 
                     if (dna[nitroBaseIndex][letterIndex] == dna[nitroBaseIndex - 1][letterIndex - 1]) {
-                        obliqueCoincidence[nitroBaseIndex][letterIndex] += obliqueCoincidence[nitroBaseIndex - 1][letterIndex - 1]+1;
+                        obliqueCoincidenceRight[nitroBaseIndex][letterIndex] += obliqueCoincidenceRight[nitroBaseIndex - 1][letterIndex - 1]+1;
                     }
 
                     if(letterIndex < dna[nitroBaseIndex].length - 1) {
                         if (dna[nitroBaseIndex][letterIndex] == dna[nitroBaseIndex - 1][letterIndex + 1]) {
-                            obliqueCoincidence[nitroBaseIndex][letterIndex] += obliqueCoincidence[nitroBaseIndex - 1][letterIndex + 1]+1;
+                            obliqueCoincidenceLeft[nitroBaseIndex][letterIndex] += obliqueCoincidenceLeft[nitroBaseIndex - 1][letterIndex + 1]+1;
                         }
                     }
 
                     //validate obliquely
                     //As the matrix has all values in 0, i rest -1 to max_nitro_base
-                    if (obliqueCoincidence[nitroBaseIndex][letterIndex] == MAX_NITRO_BASE-1) return;
+                    if (obliqueCoincidenceRight[nitroBaseIndex][letterIndex] == MAX_NITRO_BASE-1) return;
+                    if (obliqueCoincidenceLeft[nitroBaseIndex][letterIndex] == MAX_NITRO_BASE-1) return;
                 }
             }
         }
