@@ -40,10 +40,10 @@ public class Human {
      */
     private void validateMutant(char[][] dna) throws Exception {
 
-        int horizontalCoincidence = 1;
-        int[] verticalCoincidence = new int[dna[0].length];
-        int[][] obliqueCoincidenceLeft = new int[dna.length][dna[0].length];
-        int[][] obliqueCoincidenceRight = new int[dna.length][dna[0].length];
+        int horizontalCoincidence       = 1;
+        int[] verticalCoincidence       = new int[dna[0].length];
+        int[][] obliqueLeftCoincidence  = new int[dna.length][dna[0].length];
+        int[][] obliqueRightCoincidence = new int[dna.length][dna[0].length];
 
         Arrays.fill(verticalCoincidence,1);
 
@@ -66,24 +66,22 @@ public class Human {
                     if (verticalCoincidence[letterIndex] == MAX_NITRO_BASE) return;
                 }
 
-                if(
-                        (letterIndex > 0 && nitroBaseIndex > 0)
-                ) {
+                if(letterIndex > 0 && nitroBaseIndex > 0) {
 
                     if (dna[nitroBaseIndex][letterIndex] == dna[nitroBaseIndex - 1][letterIndex - 1]) {
-                        obliqueCoincidenceRight[nitroBaseIndex][letterIndex] += obliqueCoincidenceRight[nitroBaseIndex - 1][letterIndex - 1]+1;
+                        obliqueRightCoincidence[nitroBaseIndex][letterIndex] += obliqueRightCoincidence[nitroBaseIndex - 1][letterIndex - 1]+1;
                     }
 
                     if(letterIndex < dna[nitroBaseIndex].length - 1) {
                         if (dna[nitroBaseIndex][letterIndex] == dna[nitroBaseIndex - 1][letterIndex + 1]) {
-                            obliqueCoincidenceLeft[nitroBaseIndex][letterIndex] += obliqueCoincidenceLeft[nitroBaseIndex - 1][letterIndex + 1]+1;
+                            obliqueLeftCoincidence[nitroBaseIndex][letterIndex] += obliqueLeftCoincidence[nitroBaseIndex - 1][letterIndex + 1]+1;
                         }
                     }
 
                     //validate obliquely
                     //As the matrix has all values in 0, i rest -1 to max_nitro_base
-                    if (obliqueCoincidenceRight[nitroBaseIndex][letterIndex] == MAX_NITRO_BASE-1) return;
-                    if (obliqueCoincidenceLeft[nitroBaseIndex][letterIndex] == MAX_NITRO_BASE-1) return;
+                    if (obliqueRightCoincidence[nitroBaseIndex][letterIndex] == MAX_NITRO_BASE-1) return;
+                    if (obliqueLeftCoincidence[nitroBaseIndex][letterIndex] == MAX_NITRO_BASE-1) return;
                 }
             }
         }
