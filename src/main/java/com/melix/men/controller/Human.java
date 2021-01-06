@@ -2,7 +2,6 @@ package com.melix.men.controller;
 
 import com.melix.men.Utils.Utils;
 import com.melix.men.model.Dna;
-import com.melix.men.model.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,9 +18,9 @@ public class Human {
     //max value to find in the DNA
     private static final int MAX_NITRO_BASE = 4;
 
-    //Human adn to verify
+    //Human dna to verify
     //@todo throw an exception if dna does not have any letter in array.
-    private static final String[] HUMAN_ADN = {"A","T","C","G"};
+    private static final String[] HUMAN_DNA = {"A","T","C","G"};
 
     @RequestMapping(value = "/mutant", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> isMutant(@RequestBody Dna dna) {
@@ -79,7 +78,7 @@ public class Human {
                     }
 
                     //validate obliquely
-                    //As the matrix has all values in 0, i rest -1 to max_nitro_base
+                    //As the matrix has all values in 0, i-1 to max_nitro_base
                     if (obliqueRightCoincidence[nitroBaseIndex][letterIndex] == MAX_NITRO_BASE-1) return;
                     if (obliqueLeftCoincidence[nitroBaseIndex][letterIndex] == MAX_NITRO_BASE-1) return;
                 }
