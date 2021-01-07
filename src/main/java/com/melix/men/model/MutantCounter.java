@@ -24,15 +24,16 @@ public class MutantCounter implements Serializable {
 
     private float ratio;
 
-
-    public void increaseMutant() {
+    public MutantCounter increaseMutant() {
         this.setCount_mutant_dna(this.getCount_mutant_dna() + 1);
         this.setRatio((float) this.getCount_mutant_dna()/this.getCount_human_dna());
+        return this;
     }
 
-    public void increaseHuman() {
+    public MutantCounter increaseHuman() {
         this.setCount_human_dna(this.getCount_human_dna() + 1);
         this.setRatio((float) this.getCount_mutant_dna()/this.getCount_human_dna());
+        return this;
     }
 
 }
