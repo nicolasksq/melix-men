@@ -24,11 +24,10 @@ public class HumanController {
 
     @RequestMapping(value = "/mutant", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> isMutant(@RequestBody Dna dna) {
-
             if(dnaService.processDna(dna)) {
                 return ResponseEntity.status(HttpStatus.OK).build();
             } else {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
             }
     }
 

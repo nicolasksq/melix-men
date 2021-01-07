@@ -14,6 +14,7 @@ import java.util.Arrays;
 public class DnaService {
 
     private static final Logger logger = LoggerFactory.getLogger(DnaService.class);
+
     //max value to find in the DNA
     private static final int MAX_NITRO_BASE = 4;
 
@@ -32,13 +33,14 @@ public class DnaService {
         MutantCounter mutantCounter = mutantCounterService.getMutantCounter();
 
         if(!existDna(dna)){
+            dnaRepository.save(dna);
+
             if(isMutant) {
                 mutantCounterService.updateMutantCounter(mutantCounter.increaseHuman());
                 mutantCounterService.updateMutantCounter(mutantCounter.increaseMutant());
             } else {
                 mutantCounterService.updateMutantCounter(mutantCounter.increaseHuman());
             }
-            dnaRepository.save(dna);
         }
 
         return isMutant;
@@ -49,7 +51,7 @@ public class DnaService {
         return dnaRepository.existDna(dna.getDna());
     }
 
-    public Boolean isMutant(char[][] dna) {
+    private Boolean isMutant(char[][] dna) {
 
         int horizontalCoincidence       = 1;
         int[] verticalCoincidence       = new int[dna[0].length];
