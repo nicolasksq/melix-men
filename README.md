@@ -55,4 +55,4 @@ The API supports HTTP and HTTPS. Examples here are provided using HTTPS.
 
 | Endpoints      | Response                                                 | 
 |:---------------|:---------------------------------------------------------|
-| GET `/stats`| {"count_mutant_dna": 15, "count_human_dna": 32, "ratio": 0.5 }    | 
+| GET `/stats`| {"count_mutant_dna": 16, "count_human_dna": 32, "ratio": 0.5 }    | 
