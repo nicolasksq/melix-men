@@ -1,6 +1,6 @@
 package com.melix.men;
 
-import com.melix.men.controller.Human;
+import com.melix.men.controller.HumanController;
 import com.melix.men.model.Dna;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -13,7 +13,7 @@ import org.springframework.http.ResponseEntity;
 class MenApplicationTests {
 
 	@Autowired
-	private Human humanController;
+	private HumanController humanController;
 
 	@Test
 	void isHumanTest() {
@@ -52,7 +52,10 @@ class MenApplicationTests {
 		Assertions.assertEquals(responseL.getStatusCode(), HttpStatus.OK);
 		Assertions.assertEquals(responseR.getStatusCode(), HttpStatus.OK);
 	}
-
-
-
 }
+
+//MongoClientURI uri = new MongoClientURI(
+//    "mongodb+srv://nicoksq:<password>@cluster0.ipmtu.mongodb.net/<dbname>?retryWrites=true&w=majority");
+//
+//MongoClient mongoClient = new MongoClient(uri);
+//MongoDatabase database = mongoClient.getDatabase("test");
