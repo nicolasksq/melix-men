@@ -53,9 +53,3 @@ class MenApplicationTests {
 		Assertions.assertEquals(responseR.getStatusCode(), HttpStatus.OK);
 	}
 }
-
-//MongoClientURI uri = new MongoClientURI(
-//    "mongodb+srv://nicoksq:<password>@cluster0.ipmtu.mongodb.net/<dbname>?retryWrites=true&w=majority");
-//
-//MongoClient mongoClient = new MongoClient(uri);
-//MongoDatabase database = mongoClient.getDatabase("test");
