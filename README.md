@@ -1,7 +1,6 @@
 # melix-men APP
 
 - Melix-men REST API
-    - [Intro](#API overview)
     - [Mutants](#mutants)
     - [Stats](#stats)
 
@@ -57,10 +56,3 @@ The API supports HTTP and HTTPS. Examples here are provided using HTTPS.
 | Endpoints      | Response                                                 | 
 |:---------------|:---------------------------------------------------------|
 | GET `/stats`| {"count_mutant_dna": 15, "count_human_dna": 32, "ratio": 0.5 }    | 
-
-## HLD
-
-![Flow Diagram](https://github.com/nicolasksq/melix-men/blob/master/Diagram.png?raw=true)
-
-
-
