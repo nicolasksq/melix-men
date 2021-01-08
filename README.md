@@ -40,8 +40,9 @@ The API supports HTTP and HTTPS. Examples here are provided using HTTPS.
 
 | Endpoints      | Response                                                 | 
 |:---------------|:---------------------------------------------------------|
-| POST `/mutants`| HTTP Status 200 in case of DNA mutant has been found.    | 
-| POST `/mutants`| HTTP Status 403 in case of DNA non-mutant has been found.|
+| POST `/mutants`| HTTP Status 200 in case of DNA mutant.    | 
+| POST `/mutants`| HTTP Status 403 in case of DNA non-mutant.|
+| POST `/mutants`| HTTP Status 400 in case of invalid DNA.                  |
 
 ## Stats
 
