@@ -84,50 +84,71 @@ public class DnaService {
         boolean isMutant = false;
 
         for (int nitroBaseIndex = 0; nitroBaseIndex < dna.length; nitroBaseIndex++) {
-            int horizontalCoincidence       = 1;
+            int horizontalCoincidence = 1;
             for (int letterIndex = 0; letterIndex < dna[nitroBaseIndex].length; letterIndex++) {
 
                 if (letterIndex > 0) {
-                    if (dna[nitroBaseIndex][letterIndex] == dna[nitroBaseIndex][letterIndex - 1])
-                        horizontalCoincidence++;
-                    else horizontalCoincidence = 1;
-
-                    //validate horizontally
-                    if (horizontalCoincidence == MAX_NITRO_BASE) isMutant = true;
-
+                    //increment + 1 to horizontal coincidence
+                    horizontalCoincidence =
+                            this.validateAndIncreaseCounterCoincidences(
+                                    dna[nitroBaseIndex][letterIndex],
+                                    dna[nitroBaseIndex][letterIndex - 1],
+                                    horizontalCoincidence);
                 }
 
                 if (nitroBaseIndex > 0) {
-                    if (dna[nitroBaseIndex][letterIndex] == dna[nitroBaseIndex - 1][letterIndex])
-                        verticalCoincidence[letterIndex]++;
-                    else verticalCoincidence[letterIndex] = 1;
 
-                    //validate vertically
-                    if (verticalCoincidence[letterIndex] == MAX_NITRO_BASE) isMutant = true;
+                    //increment + 1 to vertical coincidence
+                    verticalCoincidence[letterIndex] = this.validateAndIncreaseCounterCoincidences(
+                            dna[nitroBaseIndex][letterIndex],
+                            dna[nitroBaseIndex - 1][letterIndex],
+                            verticalCoincidence[letterIndex]);
 
                     if (letterIndex > 0) {
-                        if (dna[nitroBaseIndex][letterIndex] == dna[nitroBaseIndex - 1][letterIndex - 1]) {
-                            obliqueRightCoincidence[nitroBaseIndex][letterIndex] +=
-                                    obliqueRightCoincidence[nitroBaseIndex - 1][letterIndex - 1] + 1;
-                        }
+                        //increment + 1 to oblique right coincidence
+                        obliqueRightCoincidence[nitroBaseIndex][letterIndex] += this.validateAndIncreaseCounterCoincidences(
+                                dna[nitroBaseIndex][letterIndex] ,
+                                dna[nitroBaseIndex - 1][letterIndex - 1],
+                                obliqueRightCoincidence[nitroBaseIndex - 1][letterIndex - 1]);
                     }
 
                     if (letterIndex < dna[nitroBaseIndex].length - 1) {
-                        if (dna[nitroBaseIndex][letterIndex] == dna[nitroBaseIndex - 1][letterIndex + 1]) {
-                            obliqueLeftCoincidence[nitroBaseIndex][letterIndex] +=
-                                    obliqueLeftCoincidence[nitroBaseIndex - 1][letterIndex + 1] + 1;
-                        }
+                        //increment + 1 to oblique left coincidence
+                        obliqueLeftCoincidence[nitroBaseIndex][letterIndex] += this.validateAndIncreaseCounterCoincidences(
+                                dna[nitroBaseIndex][letterIndex] ,
+                                dna[nitroBaseIndex - 1][letterIndex + 1],
+                                obliqueLeftCoincidence[nitroBaseIndex - 1][letterIndex + 1]);
                     }
                 }
 
-                //validate obliquely
-                //As the matrix has all values in 0, max_nitro_base will be decrese 1.
-                if (obliqueRightCoincidence[nitroBaseIndex][letterIndex] == MAX_NITRO_BASE-1 ||
-                        obliqueLeftCoincidence[nitroBaseIndex][letterIndex] == MAX_NITRO_BASE-1) isMutant = true;
+                //check if the counter has reached the wished number
+                if (
+                        (obliqueRightCoincidence[nitroBaseIndex][letterIndex] == MAX_NITRO_BASE-1) ||
+                        (obliqueLeftCoincidence[nitroBaseIndex][letterIndex] == MAX_NITRO_BASE-1) ||
+                        (horizontalCoincidence == MAX_NITRO_BASE) ||
+                        (verticalCoincidence[letterIndex] == MAX_NITRO_BASE)
+                ) isMutant = true;
             }
         }
 
         return isMutant;
+    }
+
+    /**
+     * validate and increse the counter given
+     * @param currentLetter
+     * @param previusLetter
+     * @param counterCoincidences
+     * @return
+     */
+    private int validateAndIncreaseCounterCoincidences(char currentLetter,
+                                                       char previusLetter,
+                                                       int counterCoincidences) {
+        if (currentLetter == previusLetter)
+            counterCoincidences++;
+        else counterCoincidences = 1;
+
+        return counterCoincidences;
     }
 
 }
