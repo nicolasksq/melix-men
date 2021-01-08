@@ -97,4 +97,22 @@ class DnaServiceTests {
 				ResponseEntity.status(HttpStatus.FORBIDDEN).build(), dnaService.getResponse(false));
 	}
 
+	@Test
+	void whenExistsByDnaThenTrue() {
+
+		when(dnaRepository.existsByDna(any())).thenReturn(true);
+		Dna dnaHumanMock = DnaHumanMock.getDnaMock();
+
+		Assertions.assertTrue(dnaService.existsByDna(dnaHumanMock));
+	}
+
+	@Test
+	void whenNotExistsByDnaThenFalse() {
+
+		when(dnaRepository.existsByDna(any())).thenReturn(false);
+		Dna dnaHumanMock = DnaHumanMock.getDnaMock();
+
+		Assertions.assertFalse(dnaService.existsByDna(dnaHumanMock));
+	}
+
 }
