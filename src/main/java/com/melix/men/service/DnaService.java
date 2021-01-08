@@ -71,18 +71,20 @@ public class DnaService {
     /**
      *
      * @param dna
-     * @return
+     * @return Boolean
      */
     public Boolean isMutant(char[][] dna) {
 
-        int horizontalCoincidence       = 1;
         int[] verticalCoincidence       = new int[dna[0].length];
+        Arrays.fill(verticalCoincidence,1);
+
         int[][] obliqueLeftCoincidence  = new int[dna.length][dna[0].length];
         int[][] obliqueRightCoincidence = new int[dna.length][dna[0].length];
 
-        Arrays.fill(verticalCoincidence,1);
+        boolean isMutant = false;
 
         for (int nitroBaseIndex = 0; nitroBaseIndex < dna.length; nitroBaseIndex++) {
+            int horizontalCoincidence       = 1;
             for (int letterIndex = 0; letterIndex < dna[nitroBaseIndex].length; letterIndex++) {
 
                 if (letterIndex > 0) {
@@ -91,7 +93,8 @@ public class DnaService {
                     else horizontalCoincidence = 1;
 
                     //validate horizontally
-                    if (horizontalCoincidence == MAX_NITRO_BASE) return true;
+                    if (horizontalCoincidence == MAX_NITRO_BASE) isMutant = true;
+
                 }
 
                 if (nitroBaseIndex > 0) {
@@ -100,32 +103,31 @@ public class DnaService {
                     else verticalCoincidence[letterIndex] = 1;
 
                     //validate vertically
-                    if (verticalCoincidence[letterIndex] == MAX_NITRO_BASE) return true;
-                }
+                    if (verticalCoincidence[letterIndex] == MAX_NITRO_BASE) isMutant = true;
 
-                if(letterIndex > 0 && nitroBaseIndex > 0) {
-
-                    if (dna[nitroBaseIndex][letterIndex] == dna[nitroBaseIndex - 1][letterIndex - 1]) {
-                        obliqueRightCoincidence[nitroBaseIndex][letterIndex] +=
-                                obliqueRightCoincidence[nitroBaseIndex - 1][letterIndex - 1]+1;
-                    }
-
-                    if(letterIndex < dna[nitroBaseIndex].length - 1) {
-                        if (dna[nitroBaseIndex][letterIndex] == dna[nitroBaseIndex - 1][letterIndex + 1]) {
-                            obliqueLeftCoincidence[nitroBaseIndex][letterIndex] +=
-                                    obliqueLeftCoincidence[nitroBaseIndex - 1][letterIndex + 1]+1;
+                    if (letterIndex > 0) {
+                        if (dna[nitroBaseIndex][letterIndex] == dna[nitroBaseIndex - 1][letterIndex - 1]) {
+                            obliqueRightCoincidence[nitroBaseIndex][letterIndex] +=
+                                    obliqueRightCoincidence[nitroBaseIndex - 1][letterIndex - 1] + 1;
                         }
                     }
 
-                    //validate obliquely
-                    //As the matrix has all values in 0, max_nitro_base will be decrese 1.
-                    if (obliqueRightCoincidence[nitroBaseIndex][letterIndex] == MAX_NITRO_BASE-1) return true;
-                    if (obliqueLeftCoincidence[nitroBaseIndex][letterIndex] == MAX_NITRO_BASE-1) return true;
+                    if (letterIndex < dna[nitroBaseIndex].length - 1) {
+                        if (dna[nitroBaseIndex][letterIndex] == dna[nitroBaseIndex - 1][letterIndex + 1]) {
+                            obliqueLeftCoincidence[nitroBaseIndex][letterIndex] +=
+                                    obliqueLeftCoincidence[nitroBaseIndex - 1][letterIndex + 1] + 1;
+                        }
+                    }
                 }
+
+                //validate obliquely
+                //As the matrix has all values in 0, max_nitro_base will be decrese 1.
+                if (obliqueRightCoincidence[nitroBaseIndex][letterIndex] == MAX_NITRO_BASE-1 ||
+                        obliqueLeftCoincidence[nitroBaseIndex][letterIndex] == MAX_NITRO_BASE-1) isMutant = true;
             }
         }
 
-        return false;
+        return isMutant;
     }
 
 }
