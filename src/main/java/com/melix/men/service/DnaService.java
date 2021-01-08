@@ -29,7 +29,7 @@ public class DnaService {
 
     /**
      * @param dna
-     * @return
+     * @return Dna
      */
     public Dna saveDna(Dna dna) {
 
@@ -44,9 +44,9 @@ public class DnaService {
 
     /**
      * @param isMutant
-     * @return
+     * @return ResponseEntity
      */
-    public ResponseEntity<Object> getResponse(Boolean isMutant){
+    public ResponseEntity<?> getResponse(Boolean isMutant){
             return isMutant ?
                     ResponseEntity.status(HttpStatus.OK).build() :
                     ResponseEntity.status(HttpStatus.FORBIDDEN).build();
@@ -55,7 +55,7 @@ public class DnaService {
     /**
      *
      * @param isMutant
-     * @return
+     * @return MutantCounter
      */
     public MutantCounter updateStats(Boolean isMutant) {
 

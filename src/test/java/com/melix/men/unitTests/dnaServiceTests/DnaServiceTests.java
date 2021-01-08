@@ -1,4 +1,4 @@
-package com.melix.men.dnaServiceTests;
+package com.melix.men.unitTests.dnaServiceTests;
 
 import com.melix.men.Utils.Utils;
 import com.melix.men.model.Dna;
@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,24 +28,21 @@ class DnaServiceTests {
 	@Test
 	void whenIsHumanThenFalseTest() {
 		Boolean isMutant = dnaService.isMutant(
-				Utils.convertToMatrix(DnaHumanMock.getDnaHuman())
-		);
+				Utils.convertToMatrix(DnaHumanMock.getDnaHuman()));
 		Assertions.assertFalse(isMutant);
 	}
 
 	@Test
 	void whenIsMutantVerticallyCoincidenceThenTrueTest() {
 		Boolean isMutant = dnaService.isMutant(
-				Utils.convertToMatrix(DnaHumanMock.getMutantVerticalyCoincidence())
-		);
+				Utils.convertToMatrix(DnaHumanMock.getMutantVerticalyCoincidence()));
 		Assertions.assertTrue(isMutant);
 	}
 
 	@Test
 	void whenIsMutantHorizontallyCoincidenceThenTrueTest() {
 		Boolean isMutant = dnaService.isMutant(
-				Utils.convertToMatrix(DnaHumanMock.getMutantHorizontallyCoincidence())
-		);
+				Utils.convertToMatrix(DnaHumanMock.getMutantHorizontallyCoincidence()));
 		Assertions.assertTrue(isMutant);
 	}
 
@@ -59,8 +55,7 @@ class DnaServiceTests {
 		Assertions.assertTrue(isMutantLeft);
 
 		Boolean isMutantRight = dnaService.isMutant(
-				Utils.convertToMatrix(DnaHumanMock.getMutantRightObliqueCoincidence())
-		);
+				Utils.convertToMatrix(DnaHumanMock.getMutantRightObliqueCoincidence()));
 
 		Assertions.assertTrue(isMutantRight);
 	}

@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 @RestController
 public class HumanController {
 
+
     private final DnaService dnaService;
     private final MutantCounterService mutantCounterService;
 
@@ -42,10 +43,8 @@ public class HumanController {
      */
     @RequestMapping(value = "/stats", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> stats() {
-        try {
-            return ResponseEntity.status(HttpStatus.OK).body(mutantCounterService.getMutantCounter());
-        } catch (Exception exception) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-        }
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    mutantCounterService.getMutantCounter()
+            );
     }
 }

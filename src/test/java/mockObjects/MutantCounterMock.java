@@ -1,10 +1,9 @@
 package mockObjects;
 
-import com.melix.men.model.Dna;
 import com.melix.men.model.MutantCounter;
 
 public class MutantCounterMock {
-    public final static MutantCounter getMutantCounterMock() {
+    public static MutantCounter getMutantCounterMock() {
         return new MutantCounter("test",0,0, 0.0f);
     }
 
