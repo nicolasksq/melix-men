@@ -32,10 +32,10 @@ public class HumanController {
     @RequestMapping(value = "/mutant", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> isMutant(@RequestBody Dna dna) {
         dnaService.saveDna(dna);
-
         try {
             Boolean isMutant = dnaService.isMutant(Utils.convertToMatrix(dna.getDna()));
-            dnaService.updateStats(isMutant);
+            if(dnaService.existsByDna(dna)) dnaService.updateStats(isMutant);
+
             return dnaService.getResponse(isMutant);
         } catch (ArrayIndexOutOfBoundsException exception) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();

@@ -33,13 +33,19 @@ public class DnaService {
      */
     public Dna saveDna(Dna dna) {
 
-        logger.info("checking if dna mutant...");
-
         if(!dnaRepository.existsByDna(dna.getDna())){
             dnaRepository.save(dna);
         }
 
         return dna;
+    }
+
+    /**
+     * @param dna
+     * @return Dna
+     */
+    public Boolean existsByDna(Dna dna) {
+        return dnaRepository.existsByDna(dna.getDna());
     }
 
     /**
