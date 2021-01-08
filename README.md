@@ -6,7 +6,7 @@
 
 ## API overview
 
-It was developed in Java 8 with Spring, using Heroku to deployment, [RedisLabs](https://app.redislabs.com/#/bdbs) to save and show statitcs about the use of our API and MongoDB to persist the DNA.
+It was developed in Java 8 with Spring, using Heroku to deployment, [RedisLabs](https://app.redislabs.com/#/bdbs) to save and show statitcs about the use of /mutants and MongoDB to persist the DNA.
 
 The API supports HTTP and HTTPS. Examples here are provided using HTTPS.
 
