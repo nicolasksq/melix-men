@@ -139,7 +139,7 @@ public class DnaService {
      * @param currentLetter
      * @param previusLetter
      * @param counterCoincidences
-     * @return
+     * @return int
      */
     private int validateAndIncreaseCounterCoincidences(char currentLetter,
                                                        char previusLetter,

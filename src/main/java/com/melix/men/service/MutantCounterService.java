@@ -4,6 +4,8 @@ import com.melix.men.model.MutantCounter;
 import com.melix.men.repository.MutantCounterRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class MutantCounterService {
 
@@ -18,9 +20,9 @@ public class MutantCounterService {
      * @return MutantCounter
      */
     public MutantCounter getMutantCounter() {
-            return mutantCounterRepository.findById(KEY).orElse(
-                    mutantCounterRepository.save(new MutantCounter(KEY,0,0, 0.0f))
-            );
+        return mutantCounterRepository.findById(KEY).orElseGet(
+                () -> mutantCounterRepository.save(
+                        new MutantCounter(KEY, 0, 0, 0.0f)));
     }
 
     /**
