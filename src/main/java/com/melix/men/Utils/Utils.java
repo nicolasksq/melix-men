@@ -1,6 +1,12 @@
 package com.melix.men.Utils;
 
 public class Utils {
+
+    /**
+     * Method receive and String[] and return a Matrix - char[][]
+     * @param array
+     * @return char[][]
+     */
     public static char[][] convertToMatrix(String[] array){
         char[][] matrix = new char[array.length][array.length];
         for (int index = 0; index < array.length; index++) {

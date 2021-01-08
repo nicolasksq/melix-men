@@ -6,8 +6,6 @@ import org.springframework.stereotype.Repository;
 
 
 @Repository
-public interface DnaRepository extends DnaRepositoryCustom, MongoRepository<Dna, String> {
-
+public interface DnaRepository extends MongoRepository<Dna, String> {
+    public Boolean existsByDna(String[] dna);
 }
-
-

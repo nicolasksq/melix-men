@@ -1,5 +1,6 @@
 package com.melix.men.controller;
 
+import com.melix.men.Utils.Utils;
 import com.melix.men.model.Dna;
 import com.melix.men.service.DnaService;
 import com.melix.men.service.MutantCounterService;
@@ -22,15 +23,23 @@ public class HumanController {
         this.mutantCounterService = mutantCounterService;
     }
 
+    /**
+     * Definition for this method is ->
+     * @link https://github.com/nicolasksq/melix-men/blob/master/README.md#mutants
+     */
     @RequestMapping(value = "/mutant", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> isMutant(@RequestBody Dna dna) {
-            if(dnaService.processDna(dna)) {
-                return ResponseEntity.status(HttpStatus.OK).build();
-            } else {
-                return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-            }
+        dnaService.saveDna(dna);
+        Boolean isMutant = dnaService.isMutant(Utils.convertToMatrix(dna.getDna()));
+        dnaService.updateStats(isMutant);
+
+        return dnaService.getResponse(isMutant);
     }
 
+    /**
+     * Definition for this method is ->
+     * @link https://github.com/nicolasksq/melix-men/blob/master/README.md#stats
+     */
     @RequestMapping(value = "/stats", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> stats() {
         try {

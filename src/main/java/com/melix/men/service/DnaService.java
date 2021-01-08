@@ -1,11 +1,12 @@
 package com.melix.men.service;
 
-import com.melix.men.Utils.Utils;
 import com.melix.men.model.Dna;
 import com.melix.men.model.MutantCounter;
 import com.melix.men.repository.DnaRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -26,32 +27,53 @@ public class DnaService {
         this.mutantCounterService = mutantCounterService;
     }
 
-    public Boolean processDna(Dna dna) {
+    /**
+     * @param dna
+     * @return
+     */
+    public Dna saveDna(Dna dna) {
 
         logger.info("checking if dna mutant...");
-        Boolean isMutant = isMutant(Utils.convertToMatrix(dna.getDna()));
-        MutantCounter mutantCounter = mutantCounterService.getMutantCounter();
 
-        if(!existDna(dna)){
+        if(!dnaRepository.existsByDna(dna.getDna())){
             dnaRepository.save(dna);
-
-            if(isMutant) {
-                mutantCounterService.updateMutantCounter(mutantCounter.increaseHuman());
-                mutantCounterService.updateMutantCounter(mutantCounter.increaseMutant());
-            } else {
-                mutantCounterService.updateMutantCounter(mutantCounter.increaseHuman());
-            }
         }
 
-        return isMutant;
+        return dna;
     }
 
-    private Boolean existDna(Dna dna) {
-        logger.info("find dna...");
-        return dnaRepository.existDna(dna.getDna());
+    /**
+     * @param isMutant
+     * @return
+     */
+    public ResponseEntity<Object> getResponse(Boolean isMutant){
+            return isMutant ?
+                    ResponseEntity.status(HttpStatus.OK).build() :
+                    ResponseEntity.status(HttpStatus.FORBIDDEN).build();
     }
 
-    private Boolean isMutant(char[][] dna) {
+    /**
+     *
+     * @param isMutant
+     * @return
+     */
+    public MutantCounter updateStats(Boolean isMutant) {
+
+        MutantCounter mutantCounter = mutantCounterService.getMutantCounter();
+        if(isMutant) {
+            mutantCounterService.increaseHumanAndMutant(mutantCounter);
+        } else {
+            mutantCounterService.increaseHuman(mutantCounter);
+        }
+        return mutantCounter;
+    }
+
+    /**
+     *
+     * @param dna
+     * @return
+     */
+    public Boolean isMutant(char[][] dna) {
 
         int horizontalCoincidence       = 1;
         int[] verticalCoincidence       = new int[dna[0].length];
@@ -64,7 +86,8 @@ public class DnaService {
             for (int letterIndex = 0; letterIndex < dna[nitroBaseIndex].length; letterIndex++) {
 
                 if (letterIndex > 0) {
-                    if (dna[nitroBaseIndex][letterIndex] == dna[nitroBaseIndex][letterIndex - 1]) horizontalCoincidence++;
+                    if (dna[nitroBaseIndex][letterIndex] == dna[nitroBaseIndex][letterIndex - 1])
+                        horizontalCoincidence++;
                     else horizontalCoincidence = 1;
 
                     //validate horizontally
@@ -72,7 +95,8 @@ public class DnaService {
                 }
 
                 if (nitroBaseIndex > 0) {
-                    if (dna[nitroBaseIndex][letterIndex] == dna[nitroBaseIndex - 1][letterIndex]) verticalCoincidence[letterIndex]++;
+                    if (dna[nitroBaseIndex][letterIndex] == dna[nitroBaseIndex - 1][letterIndex])
+                        verticalCoincidence[letterIndex]++;
                     else verticalCoincidence[letterIndex] = 1;
 
                     //validate vertically
@@ -82,12 +106,14 @@ public class DnaService {
                 if(letterIndex > 0 && nitroBaseIndex > 0) {
 
                     if (dna[nitroBaseIndex][letterIndex] == dna[nitroBaseIndex - 1][letterIndex - 1]) {
-                        obliqueRightCoincidence[nitroBaseIndex][letterIndex] += obliqueRightCoincidence[nitroBaseIndex - 1][letterIndex - 1]+1;
+                        obliqueRightCoincidence[nitroBaseIndex][letterIndex] +=
+                                obliqueRightCoincidence[nitroBaseIndex - 1][letterIndex - 1]+1;
                     }
 
                     if(letterIndex < dna[nitroBaseIndex].length - 1) {
                         if (dna[nitroBaseIndex][letterIndex] == dna[nitroBaseIndex - 1][letterIndex + 1]) {
-                            obliqueLeftCoincidence[nitroBaseIndex][letterIndex] += obliqueLeftCoincidence[nitroBaseIndex - 1][letterIndex + 1]+1;
+                            obliqueLeftCoincidence[nitroBaseIndex][letterIndex] +=
+                                    obliqueLeftCoincidence[nitroBaseIndex - 1][letterIndex + 1]+1;
                         }
                     }
 
