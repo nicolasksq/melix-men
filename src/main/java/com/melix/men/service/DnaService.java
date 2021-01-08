@@ -32,12 +32,7 @@ public class DnaService {
      * @return Dna
      */
     public Dna saveDna(Dna dna) {
-
-        if(!dnaRepository.existsByDna(dna.getDna())){
-            dnaRepository.save(dna);
-        }
-
-        return dna;
+        return dnaRepository.save(dna);
     }
 
     /**
