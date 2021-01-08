@@ -31,6 +31,7 @@ public class HumanController {
      */
     @RequestMapping(value = "/mutant", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> isMutant(@RequestBody Dna dna) {
+
         try {
             Boolean isMutant = dnaService.isMutant(Utils.convertToMatrix(dna.getDna()));
             if(!dnaService.existsByDna(dna)) {
