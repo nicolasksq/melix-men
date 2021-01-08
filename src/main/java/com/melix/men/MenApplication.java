@@ -9,9 +9,7 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 @EnableCaching
 @EnableMongoRepositories
 public class MenApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(MenApplication.class, args);
 	}
-
 }
